@@ -25,6 +25,8 @@ jobs:
         with:
           java-version: '17'
 
+      - name: Give Gradle wrapper permission to execute
+        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
 
