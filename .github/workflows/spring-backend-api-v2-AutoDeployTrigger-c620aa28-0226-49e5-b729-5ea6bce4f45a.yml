@@ -1,0 +1,48 @@
+name: Trigger auto deployment for spring-backend-api-v2
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/spring-backend-api-v2-AutoDeployTrigger-c620aa28-0226-49e5-b729-5ea6bce4f45a.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.SPRINGBACKENDAPIV2_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.SPRINGBACKENDAPIV2_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.SPRINGBACKENDAPIV2_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}Dockerfile
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: nishitaacr.azurecr.io
+          registryUsername: ${{ secrets.SPRINGBACKENDAPIV2_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.SPRINGBACKENDAPIV2_REGISTRY_PASSWORD }}
+          containerAppName: spring-backend-api-v2
+          resourceGroup: TestResource
+          imageToBuild: nishitaacr.azurecr.io/spring-backend-api-v2:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
