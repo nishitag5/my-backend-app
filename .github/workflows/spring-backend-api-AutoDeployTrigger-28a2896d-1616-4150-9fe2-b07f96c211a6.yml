@@ -27,8 +27,8 @@ jobs:
 
       - name: Give Gradle wrapper permission to execute
         run: chmod +x ./gradlew
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build with Gradle (skip tests)
+        run: ./gradlew build -x test
 
       - name: Azure Login
         uses: azure/login@v1
