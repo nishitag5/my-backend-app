@@ -12,7 +12,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write
       contents: read
 
@@ -32,8 +32,8 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}
           dockerfilePath: Dockerfile
-          imageToBuild: myregistry.azurecr.io/spring-backend-api:${{ github.sha }}
-          registryUrl: myregistry.azurecr.io
+          imageToBuild: <your-registry-name>.azurecr.io/spring-backend-api:${{ github.sha }}
+          registryUrl: <your-registry-name>.azurecr.io
           registryUsername: ${{ secrets.SPRINGBACKENDAPI_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SPRINGBACKENDAPI_REGISTRY_PASSWORD }}
           containerAppName: spring-backend-api
