@@ -32,8 +32,8 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}
           dockerfilePath: Dockerfile
-          imageToBuild: <your-registry-name>.azurecr.io/spring-backend-api:${{ github.sha }}
-          registryUrl: <your-registry-name>.azurecr.io
+          imageToBuild: nishitaacr.azurecr.io/spring-backend-api:${{ github.sha }}
+          registryUrl: nishitaacr.azurecr.io
           registryUsername: ${{ secrets.SPRINGBACKENDAPI_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SPRINGBACKENDAPI_REGISTRY_PASSWORD }}
           containerAppName: spring-backend-api
